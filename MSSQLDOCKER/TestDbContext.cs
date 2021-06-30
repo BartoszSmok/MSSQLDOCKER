@@ -19,6 +19,8 @@ namespace MSSQLDOCKER
         {
             modelBuilder.Entity<TestEntry>()
                 .ToContainer("test2");
+            modelBuilder.Entity<TestEntry>().HasData(new TestEntry() { Id = new Guid("a2d37637-94bd-41b5-b61d-6ca29e5a7e0d"), testText = "seededdata" });
+
         }
 
 

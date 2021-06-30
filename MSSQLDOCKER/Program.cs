@@ -14,9 +14,7 @@ namespace MSSQLDOCKER
     {
         public static void Main(string[] args)
         {
-            var host = CreateHostBuilder(args).Build();
-            InitializeDatabase(host);
-            host.Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
@@ -25,23 +23,5 @@ namespace MSSQLDOCKER
                 {
                     webBuilder.UseStartup<Startup>();
                 });
-
-        private static void InitializeDatabase(IHost host)
-        {
-            using (var scope = host.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                try
-                {
-                    TestDbContextSeed.SeedData(services);
-                }
-                catch (Exception e)
-                {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(e, "An error occurred seeding the DB.");
-                }
-                
-            }
-        }
     }
 }
